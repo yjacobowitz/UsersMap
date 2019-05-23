@@ -1,0 +1,18 @@
+.Container {
+  margin: 16px;
+}
+
+.Form {
+  display: flex;
+  flex-direction: column;
+}
+
+.FormField {
+  display: flex;
+  align-items: center;
+  margin: 16px 0;
+}
+
+.FormFieldTitle {
+  margin-right: 16px;
+}
