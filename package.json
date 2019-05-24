@@ -11,7 +11,8 @@
     "react-dom": "^16.8.6",
     "react-scripts": "3.0.1",
     "react-select": "^2.4.3",
-    "react-select-country-list": "^1.0.7"
+    "react-select-country-list": "^1.0.7",
+    "react-simple-maps": "^0.12.1"
   },
   "scripts": {
     "start": "react-scripts start",

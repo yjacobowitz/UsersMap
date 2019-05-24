@@ -5,6 +5,11 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Select from "react-select";
 import postCountryUsersSum from "../../utils/postCountryUsersSum";
+import {
+  COUNTRY_ERROR,
+  USERS_ERROR,
+  COUNTRY_PLACEHOLDER
+} from "../../utils/constants";
 import "./CountryUsersForm.css";
 
 export default class CountryUsersForm extends React.Component {
@@ -23,13 +28,16 @@ export default class CountryUsersForm extends React.Component {
   };
 
   setUsersForCountry = () => {
-    if (!this.state.country || !this.state.users) {
-      console.error("You must fill out all the fields");
-      return this.setState({ error: "You must fill out all the fields" });
+    if (!this.state.country) {
+      console.error(COUNTRY_ERROR);
+      return this.setState({ error: COUNTRY_ERROR });
     }
-    if (!_.isInteger(this.state.users)) {
-      console.error("You must enter a number");
-      return this.setState({ error: "You must enter a number" });
+    if (
+      !this.state.users ||
+      (this.state.users && !_.isInteger(this.state.users))
+    ) {
+      console.error(USERS_ERROR);
+      return this.setState({ error: USERS_ERROR });
     }
     postCountryUsersSum({
       country: this.state.country.value,
@@ -48,7 +56,7 @@ export default class CountryUsersForm extends React.Component {
               options={this.state.options}
               value={this.state.country}
               onChange={country => this.setState({ country })}
-              placeholder="Select a Country"
+              placeholder={COUNTRY_PLACEHOLDER}
               styles={{
                 container: base => ({ ...base, width: "50%" })
               }}
@@ -59,6 +67,7 @@ export default class CountryUsersForm extends React.Component {
               {"Enter the number of users:"}
             </span>
             <TextField
+              error={Boolean(this.state.error)}
               type="number"
               onChange={e =>
                 this.setState({ users: _.toInteger(e.target.value) })
