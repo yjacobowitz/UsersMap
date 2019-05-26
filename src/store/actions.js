@@ -3,12 +3,9 @@ import _ from "lodash";
 import getCountryUsersSum from "../utils/getCountryUsersSum";
 import postCountryUsersSum from "../utils/postCountryUsersSum";
 
-export const setUsersForCountry = ({ country, users }) => (
-  dispatch,
-  getState
-) => {
+export const setUsersForCountry = usersForCountry => (dispatch, getState) => {
   dispatch({ type: ACTION_TYPE.SET_USERS_FOR_COUNTRY_STARTED });
-  postCountryUsersSum({ country, users }, () => {
+  postCountryUsersSum(usersForCountry, () => {
     dispatch({ type: ACTION_TYPE.SET_USERS_FOR_COUNTRY_SUCCESS });
   }).catch(error =>
     dispatch({ type: ACTION_TYPE.SET_USERS_FOR_COUNTRY_ERROR, error })
@@ -29,3 +26,8 @@ export const getUsersForCountry = () => (dispatch, getState) => {
     dispatch({ type: ACTION_TYPE.GET_USERS_FOR_COUNTRY_ERROR, error })
   );
 };
+
+export const changePage = page => ({
+  type: ACTION_TYPE.PAGE_CHANGE,
+  payload: { page }
+});

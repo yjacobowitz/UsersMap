@@ -3,19 +3,19 @@ import _ from "lodash";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Select from "react-select";
-import postCountryUsersSum from "../../utils/postCountryUsersSum";
 import countriesAndGeoPoints from "../../utils/countriesAndGeoPoints.json";
 import {
   COUNTRY_ERROR,
   USERS_ERROR,
   COUNTRY_PLACEHOLDER
 } from "../../utils/constants";
+import Loader from "../Loader";
 import "./CountryUsersForm.css";
 
-import { postUsersForCountry } from "../../store/actions";
+import { setUsersForCountry } from "../../store/actions";
 import { connect } from "react-redux";
 
-export default class CountryUsersForm extends React.Component {
+class CountryUsersForm extends React.Component {
   state = {
     options: _.sortBy(
       _.map(countriesAndGeoPoints, country => {
@@ -48,13 +48,17 @@ export default class CountryUsersForm extends React.Component {
       console.error(USERS_ERROR);
       return this.setState({ error: USERS_ERROR });
     }
-    postCountryUsersSum({
+    this.props.setUsersForCountry({
       country: this.state.country.value,
       users: this.state.users
     });
+    this.setState({ country: null, users: null, error: null });
   };
 
   render() {
+    if (this.props.setUsersForCountryLoading) {
+      return <Loader />;
+    }
     return (
       <div className="Container">
         <h2>{"Set Sum of Users Per Country"}</h2>
@@ -83,7 +87,7 @@ export default class CountryUsersForm extends React.Component {
               }
             />
           </div>
-          <div>
+          <div className="Button">
             <Button
               variant="contained"
               color="primary"
@@ -98,3 +102,18 @@ export default class CountryUsersForm extends React.Component {
     );
   }
 }
+
+const mapStateToProps = ({
+  setUsersForCountryLoading,
+  setUsersForCountryError
+}) => ({ setUsersForCountryLoading, setUsersForCountryError });
+
+const mapDispatchToProps = dispatch => ({
+  setUsersForCountry: usersForCountry =>
+    dispatch(setUsersForCountry(usersForCountry))
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(CountryUsersForm);

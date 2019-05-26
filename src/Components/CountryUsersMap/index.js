@@ -11,6 +11,7 @@ import {
 import "./CountryUsersMap.css";
 import states from "../../utils/states.json";
 import countriesAndGeoPoints from "../../utils/countriesAndGeoPoints.json";
+import Loader from "../Loader";
 
 import { getUsersForCountry } from "../../store/actions";
 import { connect } from "react-redux";
@@ -18,6 +19,14 @@ import { connect } from "react-redux";
 class CountryUsersMap extends React.Component {
   componentDidMount() {
     this.props.getUsersForCountry();
+    this.getUsersForCountryPoller = setInterval(
+      this.props.getUsersForCountry,
+      5 * 60 * 1000
+    );
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.getUsersForCountryPoller);
   }
 
   getTotalUsers = () => {
@@ -34,6 +43,10 @@ class CountryUsersMap extends React.Component {
     // TODO:
   };
   render() {
+    if (this.props.getUsersForCountryLoading) {
+      return <Loader />;
+    }
+
     return (
       <div>
         <h2 className="TotalUsers">{`Total Users: ${this.getTotalUsers()}`}</h2>
@@ -99,8 +112,14 @@ class CountryUsersMap extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
-  usersPerCountries: state.usersPerCountries
+const mapStateToProps = ({
+  usersPerCountries,
+  getUsersForCountryLoading,
+  getUsersForCountryError
+}) => ({
+  usersPerCountries,
+  getUsersForCountryLoading,
+  getUsersForCountryError
 });
 
 const mapDispatchToProps = dispatch => ({

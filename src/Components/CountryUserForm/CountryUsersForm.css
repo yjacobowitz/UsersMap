@@ -1,5 +1,9 @@
 .Container {
   margin: 16px;
+  margin-left: 10%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 .Form {
@@ -16,4 +20,10 @@
 .FormFieldTitle {
   margin-right: 16px;
   font-family: Verdana;
+}
+
+.Button {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 32px;
 }
