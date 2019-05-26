@@ -1,10 +1,10 @@
 import React from "react";
 import _ from "lodash";
-import countryList from "react-select-country-list";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Select from "react-select";
 import postCountryUsersSum from "../../utils/postCountryUsersSum";
+import countriesAndGeoPoints from "../../utils/countriesAndGeoPoints.json";
 import {
   COUNTRY_ERROR,
   USERS_ERROR,
@@ -12,12 +12,21 @@ import {
 } from "../../utils/constants";
 import "./CountryUsersForm.css";
 
+import { postUsersForCountry } from "../../store/actions";
+import { connect } from "react-redux";
+
 export default class CountryUsersForm extends React.Component {
   state = {
-    options: _.map(countryList().getLabels(), option => ({
-      label: option,
-      value: option
-    })),
+    options: _.sortBy(
+      _.map(countriesAndGeoPoints, country => {
+        const name = _.get(country, "properties.sr_subunit");
+        return {
+          label: name,
+          value: name
+        };
+      }),
+      "label"
+    ),
     country: null,
     users: null,
     error: null

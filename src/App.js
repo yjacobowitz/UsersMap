@@ -1,7 +1,8 @@
 import React from "react";
+// import ReactDOM from "react-dom";
 import map from "lodash/map";
-import filter from "lodash/filter";
-import isInteger from "lodash/isInteger";
+// import filter from "lodash/filter";
+// import isInteger from "lodash/isInteger";
 import SwipeableDrawer from "@material-ui/core/SwipeableDrawer";
 import Button from "@material-ui/core/Button";
 import List from "@material-ui/core/List";
@@ -11,32 +12,36 @@ import ListItemText from "@material-ui/core/ListItemText";
 import MenuIcon from "@material-ui/icons/Menu";
 import MapIcon from "@material-ui/icons/Map";
 import UsersIcon from "@material-ui/icons/SupervisedUserCircle";
-import getCountryUsersSum from "./utils/getCountryUsersSum";
-import usersList from "./utils/usersList";
+import { Provider } from "react-redux";
+import store from "./store";
+// import getCountryUsersSum from "./utils/getCountryUsersSum";
+// import usersList from "./utils/usersList";
 import CountryUsersForm from "./Components/CountryUserForm";
 import CountryUsersMap from "./Components/CountryUsersMap";
 import { VIEW_USERS_PAGE, SET_USER_PAGE } from "./utils/constants";
 import "./App.css";
 
 const PAGES = [VIEW_USERS_PAGE, SET_USER_PAGE];
+
 export default class App extends React.Component {
   state = {
-    usersPerCountries: [],
+    // usersPerCountries: [],
     displayMenu: false,
     pageSelected: VIEW_USERS_PAGE
   };
 
-  componentDidMount() {
-    // postCountryUsersSum({ country: "Canada", users: 2 });
-    getCountryUsersSum(usersPerCountries =>
-      this.setState({
-        usersPerCountries: filter(usersPerCountries, usersPerCountry =>
-          isInteger(usersPerCountry.users)
-        )
-      })
-    );
-    // this.setState({ users: usersList });
-  }
+  // componentDidMount() {
+  //   console.log(this.props);
+  //   // postCountryUsersSum({ country: "Canada", users: 2 });
+  //   getCountryUsersSum(usersPerCountries =>
+  //     this.setState({
+  //       usersPerCountries: filter(usersPerCountries, usersPerCountry =>
+  //         isInteger(usersPerCountry.users)
+  //       )
+  //     })
+  //   );
+  //   // this.setState({ users: usersList });
+  // }
 
   toggleMenu = () =>
     this.setState(state => ({
@@ -44,9 +49,9 @@ export default class App extends React.Component {
     }));
 
   render() {
-    console.log(this.state.usersPerCountries);
+    // console.log(this.state.usersPerCountries);
     return (
-      <div>
+      <Provider store={store}>
         <Button onClick={this.toggleMenu}>
           <MenuIcon />
         </Button>
@@ -79,9 +84,9 @@ export default class App extends React.Component {
         {this.state.pageSelected === SET_USER_PAGE ? (
           <CountryUsersForm />
         ) : (
-          <CountryUsersMap usersPerCountries={this.state.usersPerCountries} />
+          <CountryUsersMap />
         )}
-      </div>
+      </Provider>
     );
   }
 }
