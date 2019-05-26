@@ -133,7 +133,10 @@ class CountryUsersMap extends React.Component {
                             stroke: "none"
                           }}
                         >
-                          {users}
+                          {`${_.get(
+                            country,
+                            "properties.sr_subunit"
+                          )}: ${users}`}
                         </text>
                       </Marker>
                     )
