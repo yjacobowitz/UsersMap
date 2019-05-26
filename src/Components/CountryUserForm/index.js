@@ -61,7 +61,7 @@ class CountryUsersForm extends React.Component {
     }
     return (
       <div className="Container">
-        <h2>{"Set Sum of Users Per Country"}</h2>
+        <h2>{"Set Total Users Per Country"}</h2>
         <div className="Form">
           <div className="FormField">
             <span className="FormFieldTitle">{"Choose a country:"}</span>
