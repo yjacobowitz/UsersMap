@@ -10,5 +10,4 @@ module.exports = (payload, callback) =>
     .then(callback)
     .catch(error => {
       console.error(`POST ${URL}, Failed, ${error}`);
-      throw "Error - failed to post";
     });

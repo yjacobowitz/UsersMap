@@ -30,19 +30,8 @@ class CountryUsersMap extends React.Component {
     clearInterval(this.getUsersForCountryPoller);
   }
 
-  getTotalUsers = () => {
-    const { usersPerCountries } = this.props;
-    return _.reduce(
-      usersPerCountries,
-      (totalUsers, usersPerCountry) => totalUsers + usersPerCountry.users,
-      0
-    );
-  };
+  getTotalUsers = () => _.sumBy(this.props.usersPerCountries, "users");
 
-  onCountryClick = geography => {
-    const countryChosen = _.get(geography, "properties.NAME");
-    // TODO:
-  };
   render() {
     if (this.props.getUsersForCountryLoading) {
       return <Loader />;
@@ -70,10 +59,12 @@ class CountryUsersMap extends React.Component {
 
     return (
       <div>
-        <h2 className="TotalUsers">
+        <div className="TotalUsers">
           <UsersIcon style={{ height: 80, width: 80 }} />
-          <span>{`Total Users: ${this.getTotalUsers()}`}</span>
-        </h2>
+          <span
+            style={{ fontSize: 24, marginBottom: 16 }}
+          >{`Total Users: ${this.getTotalUsers()}`}</span>
+        </div>
         <div className="MapWrapper">
           <ComposableMap>
             <ZoomableGroup>
@@ -85,7 +76,6 @@ class CountryUsersMap extends React.Component {
                       cacheId={`geography-${i}`}
                       geography={geography}
                       projection={projection}
-                      onClick={this.onCountryClick}
                       style={geographyStyle}
                     />
                   ))

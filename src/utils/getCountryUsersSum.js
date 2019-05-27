@@ -7,5 +7,4 @@ module.exports = callback =>
     .then(callback)
     .catch(error => {
       console.error(`GET ${URL}, Failed, ${error}`);
-      throw "Error - failed to fetch";
     });
