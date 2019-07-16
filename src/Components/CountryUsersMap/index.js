@@ -97,7 +97,7 @@ class CountryUsersMap extends React.Component {
                       >
                         <g transform="translate(-12, -24)">
                           <path
-                            fill="none"
+                            fill="white"
                             strokeWidth="2"
                             strokeLinecap="square"
                             strokeMiterlimit="10"
